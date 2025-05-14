@@ -1,6 +1,18 @@
 services:
   webapi:
-    container_name: web-api
+    container_name: web-api-with-mongo
     build: WebApi
     ports:
       - 5001:5001
+  
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=gbs
+      - MONGO_INITDB_ROOT_PASSWORD=geheimc
+
+volumes:
+  mongodb-data:
