@@ -1,14 +1,16 @@
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
+var databaseSettingsSection = builder.Configuration.GetSection("DatabaseSettings");
+builder.Services.Configure<DatabaseSettings>(databaseSettingsSection);
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Minimal API Version 1.0");
 
-app.MapGet("/check", () => {
+app.MapGet("/check", (Microsoft.Extensions.Options.IOptions<DatabaseSettings> options) => {
     try {
-        string connectionUri = "mongodb://gbs:geheim@mongodb:27017";
-        var client = new MongoClient(connectionUri);
+        var client = new MongoClient(options.Value.ConnectionString);
 
         var databaseNames = client.ListDatabaseNames().ToList();
 
