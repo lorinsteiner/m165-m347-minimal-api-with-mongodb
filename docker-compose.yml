@@ -1,6 +1,6 @@
 services:
-  WebApi:
-    container_name: WebApi
-    image: min-api-with-mongo
+  webapi:
+    container_name: web-api
+    build: WebApi
     ports:
       - 5001:5001
