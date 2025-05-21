@@ -48,7 +48,19 @@ app.MapGet("/api/movies", () =>
 // 404 Not found: invalid id
 app.MapGet("/api/movies/{id}", (string id) =>
 {
-    throw new NotImplementedException();
+    if (id == "1")
+    {
+        var myMovie = new Movie()
+        {
+            Id = "1",
+            Title = "Asterix und Obelix",
+        };
+        return Results.Ok(myMovie);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
 });
 
 // Update Movie by id
