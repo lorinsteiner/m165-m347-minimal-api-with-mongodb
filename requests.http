@@ -4,5 +4,23 @@ GET http://localhost:5001/check
 
 ###
 
+GET http://localhost:5001/api/movies
+
+###
+
 GET http://localhost:5001/api/movies/1
 
+###
+
+POST http://localhost:5001/api/movies
+Content-Type: application/json
+
+{
+    "Title": "No Time To Die",
+    "Year": 2000,
+    "Summary": "Eine Zusammenfassung",
+    "Actors": [
+        "Actor 1",
+        "Actor 2"
+    ]
+}

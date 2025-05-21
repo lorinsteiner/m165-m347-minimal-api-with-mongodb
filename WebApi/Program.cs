@@ -19,52 +19,57 @@ app.MapGet("/check", (IMovieService movieService) =>
 // Insert Movie
 // 200 OK: success
 // 409 Conflict: error
-app.MapPost("/api/movies", (Movie movie) =>
+app.MapPost("/api/movies", (IMovieService movieService, Movie movie) =>
 {
-    throw new NotImplementedException();
+    movieService.CreateMovie(movie);
+    return Results.Ok("created");
 });
 
 // Get all Movies
 // 200 OK: success
-app.MapGet("/api/movies", () =>
+app.MapGet("/api/movies", (IMovieService movieService) =>
 {
-    throw new NotImplementedException();
+    return Results.Ok(movieService.GetMovies());
 });
 
 // Get Movie by id
 // 200 OK: Erfolg, return Movie
 // 404 Not found: invalid id
-app.MapGet("/api/movies/{id}", (string id) =>
+app.MapGet("/api/movies/{id}", (IMovieService movieService, string id) =>
 {
-    if (id == "1")
+    Movie? movie = movieService.GetMovie(id);
+    if (movie == null)
     {
-        var myMovie = new Movie()
-        {
-            Id = "1",
-            Title = "Asterix und Obelix",
-        };
-        return Results.Ok(myMovie);
+        return Results.NotFound($"movie with id {id} doesn't exist");
     }
-    else
-    {
-        return Results.NotFound();
-    }
+
+    return Results.Ok(movie);
 });
 
 // Update Movie by id
 // 200 OK: Erfolg, return updated Movie
 // 404 Not found: invalid id
-app.MapPut("/api/movies/{id}", (string id, Movie movie) =>
+app.MapPut("/api/movies/{id}", (IMovieService movieService, string id, Movie movie) =>
 {
-    throw new NotImplementedException();
+    if (movieService.UpdateMovie(id, movie))
+    {
+        return Results.Ok();
+    }
+
+    return Results.NotFound($"movie with id {id} doesn't exist");
 });
 
 // Delete Movie by id
 // 200 OK: success
 // 404 Not found: invalid id
-app.MapDelete("/api/movies/{id}", (string id) =>
+app.MapDelete("/api/movies/{id}", (IMovieService movieService, string id) =>
 {
-    throw new NotImplementedException();
+    if (movieService.DeleteMovie(id))
+    {
+        return Results.Ok();
+    }
+
+    return Results.NotFound($"movie with id {id} doesn't exist");
 });
 
 app.Run();
