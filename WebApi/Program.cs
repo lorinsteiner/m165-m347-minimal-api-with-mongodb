@@ -1,15 +1,19 @@
-using MongoDB.Driver;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IMovieService, MongoMovieService>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var databaseSettingsSection = builder.Configuration.GetSection("DatabaseSettings");
 builder.Services.Configure<DatabaseSettings>(databaseSettingsSection);
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Minimal API Version 1.0");
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapGet("/", () => "Minimal API Version 1.0").ExcludeFromDescription();
 
 app.MapGet("/check", (IMovieService movieService) =>
 {
@@ -22,7 +26,7 @@ app.MapGet("/check", (IMovieService movieService) =>
 app.MapPost("/api/movies", (IMovieService movieService, Movie movie) =>
 {
     movieService.CreateMovie(movie);
-    return Results.Ok("created");
+    return Results.Ok($"movie with id {movie.Id} created");
 });
 
 // Get all Movies
@@ -53,7 +57,7 @@ app.MapPut("/api/movies/{id}", (IMovieService movieService, string id, Movie mov
 {
     if (movieService.UpdateMovie(id, movie))
     {
-        return Results.Ok();
+        return Results.Ok($"movie with id {id} updated");
     }
 
     return Results.NotFound($"movie with id {id} doesn't exist");
@@ -66,7 +70,7 @@ app.MapDelete("/api/movies/{id}", (IMovieService movieService, string id) =>
 {
     if (movieService.DeleteMovie(id))
     {
-        return Results.Ok();
+        return Results.Ok($"movie with id {id} deleted");
     }
 
     return Results.NotFound($"movie with id {id} doesn't exist");
