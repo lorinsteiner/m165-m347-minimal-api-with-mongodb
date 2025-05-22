@@ -1,0 +1,65 @@
+###
+
+GET http://localhost:5001/check
+
+###
+
+GET http://localhost:5001/api/movies
+
+###
+
+GET http://localhost:5001/api/movies/2
+
+###
+
+POST http://localhost:5001/api/movies
+Content-Type: application/json
+
+{
+    "id": "1",
+    "Title": "No Time To Die",
+    "Year": 2000,
+    "Summary": "Eine Zusammenfassung",
+    "Actors": [
+        "Actor 1",
+        "Actor 2"
+    ]
+}
+
+###
+
+POST http://localhost:5001/api/movies
+Content-Type: application/json
+
+{
+    "id": "2",
+    "Title": "Harry Potter und der Stein der Weisen",
+    "Year": 2008,
+    "Summary": "Eine Zusammenfassung: Ein Blitz, eine Narbe, ein Stein und ein Nasenloser",
+    "Actors": [
+        "Daniel Radcliff",
+        "Emma Watson"
+    ]
+}
+
+###
+
+PUT http://localhost:5001/api/movies/2
+Content-Type: application/json
+
+{
+    "id": "2",
+    "Title": "Harry Potter und der neue Stein der Weisen",
+    "Year": 2001,
+    "Summary": "Eine neue Zusammenfassung: diesmal ein bisschen kürzer",
+    "Actors": [
+        "Daniel Radcliff",
+        "Emma Watson",
+        "new Actresse"
+    ]
+}
+
+###
+
+DELETE  http://localhost:5001/api/movies/2
+Content-Type: application/json
