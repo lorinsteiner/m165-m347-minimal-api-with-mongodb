@@ -35,7 +35,10 @@ public class MongoMovieService : IMovieService
 
     public void CreateMovie(Movie movie)
     {
-        _moviesCollection.InsertOne(movie);
+        if (GetMovie(movie.Id) == null)
+        {
+            _moviesCollection.InsertOne(movie);
+        }
     }
 
     public bool DeleteMovie(string id)

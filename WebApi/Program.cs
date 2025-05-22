@@ -22,7 +22,7 @@ app.MapGet("/check", (IMovieService movieService) =>
 app.MapPost("/api/movies", (IMovieService movieService, Movie movie) =>
 {
     movieService.CreateMovie(movie);
-    return Results.Ok("created");
+    return Results.Ok($"movie with id {movie.Id} created");
 });
 
 // Get all Movies
@@ -53,7 +53,7 @@ app.MapPut("/api/movies/{id}", (IMovieService movieService, string id, Movie mov
 {
     if (movieService.UpdateMovie(id, movie))
     {
-        return Results.Ok();
+        return Results.Ok($"movie with id {id} updated");
     }
 
     return Results.NotFound($"movie with id {id} doesn't exist");
@@ -66,7 +66,7 @@ app.MapDelete("/api/movies/{id}", (IMovieService movieService, string id) =>
 {
     if (movieService.DeleteMovie(id))
     {
-        return Results.Ok();
+        return Results.Ok($"movie with id {id} deleted");
     }
 
     return Results.NotFound($"movie with id {id} doesn't exist");
