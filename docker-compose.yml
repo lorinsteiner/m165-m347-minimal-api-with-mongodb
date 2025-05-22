@@ -1,6 +1,28 @@
 services:
-  WebApi:
-    container_name: WebApi
-    image: min-api-with-mongo
+  webapi:
+    container_name: web-api-with-mongo
+    build: WebApi
     ports:
       - 5001:5001
+    environment:
+      DatabaseSettings__ConnectionString: mongodb://gbs:geheim@mongodb:27017
+    depends_on:
+      - mongodb
+  
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=gbs
+      - MONGO_INITDB_ROOT_PASSWORD=geheim
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb://gbs:geheim@mongodb:27017/admin --quiet
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  mongodb-data:

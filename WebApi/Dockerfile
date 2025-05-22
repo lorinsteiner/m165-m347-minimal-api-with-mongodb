@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 as dotnet-build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dotnet-build
 
 WORKDIR /build
 
@@ -8,7 +8,7 @@ RUN ["dotnet", "restore"]
 RUN ["dotnet", "publish", "-c", "Release", "-o", "out"]
 
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 as dotnet-runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS dotnet-runtime
 
 WORKDIR /run
 
