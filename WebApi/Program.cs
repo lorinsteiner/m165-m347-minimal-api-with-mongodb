@@ -4,12 +4,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IMovieService, MongoMovieService>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var databaseSettingsSection = builder.Configuration.GetSection("DatabaseSettings");
 builder.Services.Configure<DatabaseSettings>(databaseSettingsSection);
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Minimal API Version 1.0");
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapGet("/", () => "Minimal API Version 1.0").ExcludeFromDescription();
 
 app.MapGet("/check", (IMovieService movieService) =>
 {
