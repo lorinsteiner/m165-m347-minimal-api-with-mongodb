@@ -1,3 +1,5 @@
+using MongoDB.Driver;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IMovieService, MongoMovieService>();
